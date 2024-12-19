@@ -1,0 +1,401 @@
+@import url("https://fonts.googleapis.com/css2?family=Fugaz+One&family=Nunito&display=swap");
+/*------------------------------------------------------------------------------------------------------------------------------*/
+/* CSS RESET */
+*, ::after, *::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+img {
+    display: block; /* gets rid of that minimal little space below the images that they were originally designed to be inline */
+    max-width: 100%; /* makes them responsive */
+    height: auto; /* makes them responsive */
+}
+
+input, button, textarea {
+    font: inherit; /* in general, form elements do not inherit font properties like other elements do */
+}
+/*------------------------------------------------------------------------------------------------------------------------------*/
+/* CSS VARIABLES */
+:root {
+    /* FONTS */
+    --FF: "Nunito", sans-serif;
+    --FF-HEADINGS: "Fugaz One", cursive;
+    --FS: clamp(1rem, 2vh, 1.5rem); /* clamp function so the font can grow and shrink*/
+
+    /* COLORS */ /* ctrl + p = >sort lines ascending*/
+    --BGCOLOR-FADE: rgb(252, 220, 160);
+    --BGCOLOR: orange;
+    --BGIMAGE: linear-gradient(to bottom, var(--BGCOLOR), var(--BGCOLOR-FADE)); /* from top to bottom */
+    --BODY-BGCOLOR: white;
+    --BORDER-COLOR: #3b3b3b;
+    --FONT-COLOR: black;
+    --HEADER-BGCOLOR: black;
+    --HEADER-COLOR: white;
+    --HERO-BGCOLOR: rgba(51, 178, 51, 0.7);
+    --HERO-COLOR: white;
+    --HIGHLIGHT-COLOR: rgb(51, 178, 51);
+    --LINK-ACTIVE: orange;
+    --LINK-BGCOLOR: orange;
+    --LINK-COLOR: black;
+    --LINK-HOVER: hsla(0, 0%, 0%, 0.77);
+    --NAV-BGCOLOR: white;
+
+    /* BORDERS */
+    --BORDERS: 2px solid var(--BORDER-COLOR);
+    --BORDER-RADIUS: 15px;
+
+    /* STANDARD PADDING */
+    --PADDING-TB: 0.25em; /* stands for padding top and bottom*/
+    --PADDING-SIDE: 2%;
+
+    /* STANDARD MARGIN */
+    --MARGIN: clamp(1em, 2.5vh, 1.5em) 0; /* top/bottom margin is 1em, 2.5vh, 1.5em and lef/right margin is 0 */
+}
+
+@media (prefers-color-scheme: dark) { /* dark theme */
+    :root {
+        --BGCOLOR-FADE: gray;
+        --BGCOLOR: black;
+        --BODY-BGCOLOR: #333;
+        --BORDER-COLOR: whitesmoke;
+        --BUTTON-COLOR: black;
+        --FONT-COLOR: whitesmoke;
+        --HEADER-COLOR: whitesmoke;
+        --HERO-COLOR: #333;
+        --HIGHLIGHT-COLOR: whitesmoke;
+        --LINK-ACTIVE: rgba(255, 166, 0, 0.932);
+        --LINK-BGCOLOR: rgb(61, 61, 61);
+        --LINK-COLOR: whitesmoke;
+        --LINK-HOVER: white;
+        --NAV-BGCOLOR: rgb(20, 20, 20);
+    }
+}
+
+/*------------------------------------------------------------------------------------------------------------------------------*/
+/* UTILITY CLASSES */
+.offscreen { /* a style to move elements off the screen but keep in the document flow so a screen reader will read them */
+    position: absolute;
+    left: -10000px;
+}
+
+.nowrap { /* to ensure that some of the text does not wrap in an area that is awkward */
+    white-space: nowrap;
+}
+
+.center { /* to center text in a paragraph or a heading */
+    text-align: center;
+}
+/*------------------------------------------------------------------------------------------------------------------------------*/
+/* GENERAL STYLES */
+html {
+    scroll-behavior: smooth; /* smooth transition when we link to other parts of the page */
+    font-size: var(--FS);
+    font-family: var(--FF);
+    background-color: var(--BGCOLOR);
+    background-image: var(--BGIMAGE);
+    overflow-y: scroll;
+}
+
+body {
+    background-color: var(--BODY-BGCOLOR);
+    color: var(--FONT-COLOR);
+    min-height: 100vh;
+    max-width: 800px;
+    margin: 0 auto; /* centers the body */
+    border-left: var(--BORDERS);
+    border-right: var(--BORDERS);
+    box-shadow: 0 0 10px 1px var(--BORDER-COLOR); /* box-shadow: horizontal-offset vertical-offset blur-radius spread-radius color;*/
+}
+
+h1, h2, h3 {
+    font-family: var(--FF-HEADINGS);
+    letter-spacing: 0.08em;
+}
+
+h2, h3 {
+    margin-bottom: 1em;
+    color: var(--HIGHLIGHT-COLOR);
+}
+
+p {
+    line-height: 1.5;
+}
+
+a:any-link { /* pseudo class selector selects links that have/have not been visited */
+    color: var(--LINK-COLOR);
+}
+
+a:hover, a:focus-visible { /* after its use the focus will change */
+    color: var(--LINK-HOVER);
+}
+
+a:active {
+    color: var(--LINK-ACTIVE);
+}
+/*------------------------------------------------------------------------------------------------------------------------------*/
+/* HEADER */
+.header { /* we started using BEM */
+    position: sticky; /* we will make the header stick to the top and always stay at the top */
+    top: 0;
+    z-index: 1;
+}
+
+.header__h1 {
+    text-align: center;
+    background-color: var(--HEADER-BGCOLOR);
+    color: var(--HEADER-COLOR);
+    padding: var(--PADDING-TB) var(--PADDING-SIDE);
+}
+
+.header__nav {
+    background-color: var(--NAV-BGCOLOR);
+    border-bottom: var(--BORDERS);
+    font-weight: bold;
+    box-shadow: 0 6px 5px -5px var(--BORDER-COLOR); /* box-shadow: horizontal-offset vertical-offset blur-radius spread-radius color;*/
+}
+
+.header__ul {
+    padding: var(--PADDING-TB) var(--PADDING-SIDE);
+    list-style-type: none;
+    display: flex;
+    justify-content: space-evenly;
+    gap: 1rem;
+}
+
+.header__li {
+    background-color: var(--LINK-BGCOLOR);
+    box-shadow: -6px 6px 5px -5px var(--BORDER-COLOR);
+    margin: 5px;
+    padding: 3px;
+    border-radius: 2%;
+    transition: transform 0.3s ease; /* smooth transition when scaling */
+    /* transition: transition-property transition-duration transition-timing-function transition-delay; */
+}
+
+.header__li a {
+    text-decoration: none;
+}
+
+.header__li:hover {
+    transform: scale(1.15); /* scale the <li> to 1.1 times its size when hovered */
+    text-decoration: none;
+}
+
+/* HERO */
+.hero {
+    position: relative;
+}
+
+.hero__h2 {
+    background-color: var(--HERO-BGCOLOR);
+    color: var(--HERO-COLOR);
+    padding: 0.25em 0.5em;
+    letter-spacing: 0.15rem;
+    text-shadow: 2px 2px 5px var(--BORDER-COLOR); /* text-shadow: horizontal-offset vertical-offset blur-radius color; */
+    position: absolute;
+    top: -100px; /* we make it disappear */
+    left: 20px; /* this will be the new position after the animation */
+    animation: showWelcome 0.5s ease-in-out 1s forwards; /* animation: name duration timingFunction delay stateAfterEnd */
+}
+
+/* here we create the animation for the hero__h2*/
+@keyframes showWelcome {
+    0% {
+        top: -20px;
+        transform: skew(0deg, -5deg) scaleY(0)
+    }
+    80% {
+        top: 30px;
+        transform: skew(10deg, -5deg) scaleY(1.2);
+    }
+    100% {
+        top: 20px;
+        transform: skew(-10deg, -5deg) scaleY(1);
+    }
+}
+
+/* FOOTER */
+.footer {
+    position: sticky;
+    bottom: 0;
+    background-color: var(--HEADER-BGCOLOR);
+    color: var(--HEADER-COLOR);
+    padding: var(--PADDING-TB) var(--PADDING-SIDE);
+    text-align: center;
+}
+
+/* MAIN */
+.main {
+    padding: var(--PADDING-TB) var(--PADDING-SIDE);
+}
+
+.main__article {
+    scroll-margin-top: 6.5rem; /* enable the article information to show instead of scrolling underneath the header */
+    margin: var(--MARGIN);
+}
+
+.main__article:first-child {
+    margin-top: 1em;
+}
+
+.main__article:last-child {
+    min-height: calc(100vh - 20rem); /* MAKES THE PAGE BIGGER - EVEN MORE DOWN FROM THE BACK TO THE TOP */
+}
+
+/* INDIVIDUAL SPACES */
+/* ABOUT PAGE */
+.about__trivia {
+    margin: var(--MARGIN);
+}
+
+.about__trivia-answer {
+    margin-top: 1em;
+    padding-left: 1.3em;
+}
+
+/* CONTACT PAGE */
+.contact__h2 {
+    margin: 0;
+}
+
+.contact__fieldset {
+    border: none;
+}
+
+.contact__p {
+    margin: 1em 0;
+}
+
+.contact__label {
+    display: block;
+    font-weight: bold;
+}
+
+.contact__input, .contact__textarea {
+    padding: 0.3em;
+    border-radius: var(--BORDER-RADIUS);
+    border-width: 2px;
+    width: 100%;
+}
+
+.contact__button {
+    padding: 0.3em;
+    border-radius: var(--BORDER-RADIUS);
+    border-width: 2px;
+    background-color: var(--HIGHLIGHT-COLOR);
+    color: var(--BUTTON-COLOR);
+    font-weight: bold;
+}
+/* HOME PAGE */
+/* BackToTheTop */
+.bttt__a {
+    background-color: var(--LINK-BGCOLOR);
+    text-decoration: none;
+    box-shadow: -6px 6px 5px -5px var(--BORDER-COLOR);
+    margin: 5px;
+    padding: 4px 6px;
+    border-radius: 2%;
+    display: inline-block; /* a are inline elements so we have to make it a block to accept the transform and scale */
+    transition: transform 0.3s ease;
+}
+
+.bttt__a:hover {
+    transform: scale(1.15);
+}
+
+.menu__h2::after {
+    content: ' 📒';
+}
+
+.main__p::after {
+    content: ' 📅';
+}
+
+.main__location::after {
+    content: ' 📍';
+}
+
+.contact__h2::after {
+    content: ' 🗯️';
+}
+
+.main__h2::after {
+    content: ' ✍️';
+}
+
+.main__h3::after {
+    content: ' 🌮🌯🌮';
+}
+
+/* MENU */
+thead, tbody, tfoot, tr { /* it ignores those */ /* we dont have to use classes because it's a small project */
+    display: contents; /* it causes a children to appear as if they were direct children of the elements parent, ignoring the element itself */
+}
+
+.menu__container {
+    display: grid; /* grid needs flat elements to apply on */
+    grid-template-columns: repeat(3,1fr); /* 3 columns each with 1 fraction */
+    grid-template-areas: "hd1 hd2 hd3" /* header 1 2 3 */
+                         "cr cr1 cr1p" /* crunchy crunchy1 crunchy1Price */
+                         "cr cr2 cr2p"
+                         "cr cr3 cr3p"
+                         "sf sf1 sf1p" /* soft soft1 soft1price */
+                         "sf sf2 sf2p"
+                         "sf sf3 sf3p"
+                         "cs cs cs"; /* chipsandsalsa */
+    gap: 0.1em;
+    margin-bottom: 1em;
+}
+
+.menu__cr {
+    grid-area: cr;
+}
+.menu__sf {
+    grid-area: sf;
+}
+.menu__cs {
+    grid-area: cs;
+}
+.menu__cr, .menu__sf, .menu__cs, .menu__header {
+    color: var(--HIGHLIGHT-COLOR);
+    font-weight: bold;
+    height: 100%;
+    display: grid;
+    place-content: center;
+}
+
+.menu__header, .menu__item {
+    width: 100%;
+    padding: 1em;
+    border: medium ridge var(--BORDER-COLOR);
+}
+
+.menu__item {
+    display: grid;
+    place-content: center;
+}
+
+thead th:first-child { /* they gey ignored in the site but these are still elements in the html code so we can style them*/
+    border-top-left-radius: var(--BORDER-RADIUS);
+}
+thead th:last-child {
+    border-top-right-radius: var(--BORDER-RADIUS);
+}
+tfoot td {
+    border-bottom-left-radius: var(--BORDER-RADIUS);
+    border-bottom-right-radius: var(--BORDER-RADIUS);
+}
+
+@media screen and (min-width: 576px) { /* DO NOT FORGET THE |AND|*/
+    .header__h1::before {
+        content: '🌮 ';
+    }
+    .header__h1::after {
+        content: ' 🌮';
+    }
+    .menu__header, .menu__cr, .menu__sf, .menu__cs {
+        font-size: 125%;
+    }
+}
